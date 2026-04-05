@@ -33,6 +33,48 @@
             --scores-bg: #1e1e1e;
         }
 
+        /* Red theme variables */
+        [data-theme="red"] {
+            --primary-color: #f44336;
+            --background-color: #ffebee;
+            --card-back: #d32f2f;
+            --card-front: #ffffff;
+            --text-color: #333333;
+            --success-color: #4caf50;
+            --modal-bg: rgba(0,0,0,0.5);
+            --controls-bg: #ffffff;
+            --modal-content-bg: #ffffff;
+            --scores-bg: #ffffff;
+        }
+
+        /* Green theme variables */
+        [data-theme="green"] {
+            --primary-color: #4caf50;
+            --background-color: #e8f5e8;
+            --card-back: #2e7d32;
+            --card-front: #ffffff;
+            --text-color: #333333;
+            --success-color: #ff9800;
+            --modal-bg: rgba(0,0,0,0.5);
+            --controls-bg: #ffffff;
+            --modal-content-bg: #ffffff;
+            --scores-bg: #ffffff;
+        }
+
+        /* Blue theme variables */
+        [data-theme="blue"] {
+            --primary-color: #2196f3;
+            --background-color: #e3f2fd;
+            --card-back: #1976d2;
+            --card-front: #ffffff;
+            --text-color: #333333;
+            --success-color: #ff5722;
+            --modal-bg: rgba(0,0,0,0.5);
+            --controls-bg: #ffffff;
+            --modal-content-bg: #ffffff;
+            --scores-bg: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -73,28 +115,15 @@
             right: 0;
             background: var(--primary-color);
             border: none;
-            border-radius: 50%;
-            width: 40px;
+            border-radius: 4px;
+            width: 80px;
             height: 40px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             transition: background-color 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: #1565c0;
-        }
-
-        [data-theme="dark"] .theme-toggle::before {
-            content: "☀️";
-        }
-
-        [data-theme="light"] .theme-toggle::before,
-        .theme-toggle::before {
-            content: "🌙";
         }
 
         /* Game controls and statistics panel */
@@ -267,7 +296,7 @@
         <header class="header">
             <h1>Memory Game</h1>
             <p>Match all the pairs to win! Use keyboard or mouse to play.</p>
-            <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+            <button class="theme-toggle" aria-label="Toggle theme"></button>
         </header>
 
         <!-- Game statistics panel -->
@@ -357,9 +386,12 @@
         }
 
         // Theme management
+        const themes = ['light', 'dark', 'red', 'green', 'blue'];
+
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('memoryGameTheme', theme);
+            elements.themeToggle.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
         }
 
         function getTheme() {
@@ -368,8 +400,9 @@
 
         function toggleTheme() {
             const currentTheme = getTheme();
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            setTheme(themes[nextIndex]);
         }
 
         function initializeTheme() {
